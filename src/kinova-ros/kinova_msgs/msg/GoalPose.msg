@@ -1,0 +1,2 @@
+int8 task
+geometry_msgs/PoseStamped goalpose

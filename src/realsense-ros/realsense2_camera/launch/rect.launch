@@ -1,0 +1,14 @@
+<launch>
+  
+    <!-- 生成一个 image_proc/rectify nodelet 来校正 深度图像 -->
+    <node pkg="nodelet" type="nodelet" name="rectify_depth"
+          args="load image_proc/rectify manager --no-bond"
+          respawn="true">
+      <remap from="image_mono"  to="camera/color/image_raw" />
+      <param name="interpolation"  value="0" />
+      <remap from="camera_info" to="/camera/depth/camera_info" />
+      <remap from="image_rect"  to="camera/color/image_cret" />
+    </node>
+
+
+  </launch>

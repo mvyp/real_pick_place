@@ -1,0 +1,17 @@
+<launch>
+  <!-- (start your robot's MoveIt! stack, e.g. include its moveit_planning_execution.launch) -->
+  <!-- (start your tracking system's ROS driver) -->
+
+  <!-- <include file="$(find easy_handeye)/launch/publish.launch">
+    <arg name="namespace_prefix" value="true_kinect_easy_handeye"/>
+    <arg name="eye_on_hand" value="false"/>
+    <arg name="robot_base_frame" value="j2s7s300_link_base"/>
+    <arg name="tracking_base_frame" value="depth_camera_link"/>
+  </include> -->
+
+  <include file="$(find easy_handeye)/launch/publish.launch">
+    <arg name="namespace_prefix" value="kinect_easy_handeye"/>
+    <arg name="eye_on_hand" value="true"/>
+    <arg name="tracking_base_frame" value="camera_color_optical_frame"/>
+  </include>
+</launch>

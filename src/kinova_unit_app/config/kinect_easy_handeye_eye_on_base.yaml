@@ -1,0 +1,11 @@
+eye_on_hand: false
+robot_base_frame: j2s7s300_link_base
+tracking_base_frame: depth_camera_link
+transformation:
+  qw: -0.07525623734801108
+  qx: -1.0
+  qy: -0.011236357622137327
+  qz: 0.007640647033000109
+  x: 0.02147858972523195
+  y: -0.5256363801273404
+  z: 1.02217523775726

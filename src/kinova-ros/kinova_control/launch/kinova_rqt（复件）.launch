@@ -1,0 +1,10 @@
+<launch>
+
+r
+	<node name="joint_state_publisher" pkg="joint_state_publisher"
+		type="joint_state_publisher">
+		<param name="rate" value="30"/>
+		<param name="use_gui" value="true"/>
+	</node>
+
+</launch>

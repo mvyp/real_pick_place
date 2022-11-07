@@ -1,0 +1,10 @@
+<launch>
+
+    <include file="$(find kinova_with_d435)/launch/run.launch"/>
+
+    <include file="$(find j2s7s300_moveit_config)/launch/j2s7s300_gazebo_demo.launch"/>
+    <!-- <node name="pick_place" pkg="kinova_arm_moveit_demo" type="my_pick_place" output="screen"/> -->
+ 
+  
+</launch>
+  

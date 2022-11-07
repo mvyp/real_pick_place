@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="log_type" default="screen"/>
+
+  <node pkg="kinova_unit_app" type="object_recognition_verification" name="object_detect_node" output="$(arg log_type)">
+    <param name="point_cloud_frame" value="depth_camera_link" /> 
+    <param name="point_cloud_topic" value="points2" />
+    <param name="debug_output_topic" value="/debug_pointcloud_output" />
+    <param name="object_visual_markers_topic" value="/object_visual_markers" />
+  </node>
+
+  <node pkg="kinova_unit_app" type="kinova_unit_app_node.py" name="object_detect">
+  </node>
+
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+  <node name="cloud_filter" pkg="gpd_ros" type="cloud_filter" output="screen">
+  </node>
+</launch>

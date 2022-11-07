@@ -1,0 +1,48 @@
+<launch>
+
+  <arg name="use_urdf" default="true" />
+  <arg name="kinova_robotType" default="j2s7s300" />
+  <arg name="kinova_robotName" default="$(arg kinova_robotType)" />
+  <arg name="kinova_robotSerial" default="not_set" />
+  <arg name="use_jaco_v1_fingers" default="false" />
+  <arg name="feedback_publish_rate" default="0.1" />
+
+  <!-- If the node handles multiple robots uncomment this and configure /config/multiple_robots.yaml" -->
+  <!-- <rosparam file="$(find kinova_bringup)/launch/config/multiple_robots.yaml" command="load" /> -->
+
+  <node name="$(arg kinova_robotName)_driver" pkg="kinova_driver" type="kinova_arm_driver" output="screen" cwd="node" args="$(arg kinova_robotType)">
+    <rosparam file="$(find kinova_bringup)/launch/config/robot_parameters.yaml" command="load" />
+    <param name="serial_number" value="$(arg kinova_robotSerial)" />
+    <param name="robot_name" value="$(arg kinova_robotName)" />
+    <param name="robot_type" value="$(arg kinova_robotType)" />
+    <param name="use_jaco_v1_fingers" value="$(arg use_jaco_v1_fingers)" />
+    <param name="status_interval_seconds" value="$(arg feedback_publish_rate)" />
+  </node>
+
+  <group unless="$(arg use_urdf)">
+    <node name="$(arg kinova_robotName)_tf_updater" pkg="kinova_driver" type="kinova_tf_updater" output="screen" cwd="node" args="$(arg kinova_robotType)">
+      <remap from="/$(arg kinova_robotName)_tf_updater/in/joint_angles" to="/$(arg kinova_robotName)_driver/out/joint_angles" />
+      <param name="base_frame" value="root" />
+    </node>
+  </group>
+
+  <group if="$(arg use_urdf)">
+    <param name="robot_description" command="$(find xacro)/xacro '$(find kinova_description)/urdf/$(arg kinova_robotType)_standalone.xacro'" />
+    <node name="$(arg kinova_robotName)_state_publisher"
+      pkg="robot_state_publisher"
+      type="robot_state_publisher">
+      <remap from="joint_states" to="/$(arg kinova_robotName)_driver/out/joint_state" />
+    </node>
+  </group>
+
+  <!-- <include file="$(find realsense2_camera)/launch/rs_d435_camera_with_model.launch">
+    <arg name="tf_prefix"             value="camera"/>
+    <arg name="initial_reset"         value="false"/>
+    <arg name="enable_sync"           value="true"/>
+    <arg name="align_depth"           value="true"/>
+  </include> -->
+  <!-- <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster"
+    args="0.000 0.100 -0.17
+  -1.57 -1.57 0 j2s7s300_end_effector camera_link 10" /> -->
+
+</launch>
