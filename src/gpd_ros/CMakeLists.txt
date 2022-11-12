@@ -77,6 +77,11 @@ add_executable(global_point src/global_point.cpp)
 target_link_libraries(global_point ${catkin_LIBRARIES})
 add_dependencies(global_point ${PROJECT_NAME}_gencfg)
 
+
+add_executable(object_tf src/object_tf.cpp)
+target_link_libraries(object_tf ${catkin_LIBRARIES})
+add_dependencies(object_tf ${PROJECT_NAME}_gencfg)
+
 add_executable(object_point_cloud src/object_point_cloud.cpp)
 target_link_libraries(object_point_cloud ${catkin_LIBRARIES})
 add_dependencies(object_point_cloud ${PROJECT_NAME}_gencfg)

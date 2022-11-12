@@ -7,6 +7,8 @@
 #include "gpd_ros/GraspConfig.h"
 #include "gpd_ros/GraspConfigList.h"
 #include <math.h>
+#include <tf/transform_listener.h>
+#include <geometry_msgs/TransformStamped.h>
 
 #include <actionlib/client/simple_action_client.h>
 #include <kinova_msgs/SetFingersPositionAction.h>
@@ -54,6 +56,11 @@ namespace kinova
         tf::TransformBroadcaster br;
         tf::Transform transform1;
         tf::Transform transform2;
+        tf::TransformListener listener;
+        tf::StampedTransform st;
+        tf::Vector3 get_position(std::string target);
+        void goto_approximate_loc(tf::Vector3);
+        void clear_target();
     private:
         ros::NodeHandle nh_;
 
@@ -63,7 +70,7 @@ namespace kinova
         moveit::planning_interface::MoveGroupInterface* group_;
         moveit::planning_interface::MoveGroupInterface* gripper_group_;
         robot_model::RobotModelPtr robot_model_;
-//        robot_state::RobotStatePtr robot_state_;
+        robot_state::RobotStatePtr robot_state_;
 
         planning_scene::PlanningScenePtr planning_scene_;
         planning_scene_monitor::PlanningSceneMonitorPtr planning_scene_monitor_;
@@ -112,7 +119,10 @@ namespace kinova
         geometry_msgs::PoseStamped grasp_pose_;
         geometry_msgs::PoseStamped can_pose_;
         geometry_msgs::PoseStamped pregrasp_pose_;
+        geometry_msgs::PoseStamped fake_pose_;
         geometry_msgs::PoseStamped postgrasp_pose_;
+        geometry_msgs::PoseStamped approximate_pose_;
+
 
 
         void build_workscene();
@@ -143,6 +153,7 @@ namespace kinova
         void getInvK(geometry_msgs::Pose &eef_pose, std::vector<double> &joint_value);
         // void check_collision();
         bool evaluate_plan(moveit::planning_interface::MoveGroupInterface &group, const geometry_msgs::PoseStamped &);
+        void evaluate_plan(moveit::planning_interface::MoveGroupInterface &group);
         bool gripper_action(double gripper_rad);
 
     };

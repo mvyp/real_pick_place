@@ -16,15 +16,22 @@
   xmlns:physics="http://playerstage.sourceforge.net/gazebo/xmlschema/#physics"
   xmlns:xacro="http://www.ros.org/wiki/xacro" name="j2s7s300">
 
+
+
+
   <xacro:property name="M_PI" value="3.1415926535897931" />
 
   <xacro:include filename="$(find kinova_description)/urdf/j2s7s300.xacro" />
   <!-- <xacro:include filename="$(find kinova_description)/urdf/realsense_d435.urdf.xacro" /> -->
+  <!-- for gazebo -->
+  <link name="world" />
+
+
+
 
   <link name="root" />
 
-  <!-- for gazebo -->
-  <link name="world" />
+
 
 
   <joint name="connect_root_and_world" type="fixed">
@@ -66,5 +73,4 @@
   <!-- <sensor_d435 parent="realsense_coupling_link" prefix="camera">
     <origin xyz="0.0875 0 -0.01515" rpy="0 ${M_PI/2} 0" />
   </sensor_d435> -->
-
 </robot>

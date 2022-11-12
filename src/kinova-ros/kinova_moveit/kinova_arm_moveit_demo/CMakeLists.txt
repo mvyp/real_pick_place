@@ -15,6 +15,8 @@ find_package(catkin REQUIRED
              cmake_modules
              geometric_shapes
              eigen_conversions
+             tf2
+             tf2_ros
 )
 
 find_package(Boost REQUIRED system filesystem date_time thread)

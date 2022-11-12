@@ -48,5 +48,4 @@
     <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
   </include>	 
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
-
 </launch>
