@@ -1,4 +1,4 @@
-#include <math.h>
+#include <cmath>
 #include <stdlib.h>
 #include <string>
 #include <vector>
@@ -103,7 +103,7 @@ void Pointcloud_filter::bounding_box_callback(const yolov5_ros_msgs::BoundingBox
 
 if(!is_K_empty and !is_IMG_empty){
     for(int i=0;i<bounding_box_msg->bounding_boxes.size();i++){
-        if(bounding_box_msg->bounding_boxes[i].probability<0.5)
+        if(bounding_box_msg->bounding_boxes[i].probability<0.3)
         continue;
 
     double xmin=bounding_box_msg->bounding_boxes[i].xmin;
@@ -137,14 +137,17 @@ if(!is_K_empty and !is_IMG_empty){
     accx/=count;
     accy/=count;
     accz/=count;
-    std::cout<< bounding_box_msg->bounding_boxes[i].Class <<accx<<" "<<accy<<" "<<accz<<std::endl;
+    if (isnan(accx)!=1&&isnan(accy)!=1&&isnan(accz)!=1)
+    {std::cout<< bounding_box_msg->bounding_boxes[i].Class <<" "<<accx<<" "<<accy<<" "<<accz<<std::endl;
 
 
     geometry_msgs::TransformStamped transformStamped;
    
     transformStamped.header.stamp = ros::Time::now();
     transformStamped.header.frame_id = "camera_base";
-    transformStamped.child_frame_id = bounding_box_msg->bounding_boxes[i].Class;
+    //transformStamped.child_frame_id = "/objects/" + bounding_box_msg->bounding_boxes[i].Class;
+    transformStamped.child_frame_id =  bounding_box_msg->bounding_boxes[i].Class;
+
     transformStamped.transform.translation.x = accz;
     transformStamped.transform.translation.y = -accx;
     transformStamped.transform.translation.z = -accy;
@@ -154,7 +157,8 @@ if(!is_K_empty and !is_IMG_empty){
     transformStamped.transform.rotation.z = 0;
     transformStamped.transform.rotation.w = 1;
  
-    br.sendTransform(transformStamped); }}
+    br.sendTransform(transformStamped); }
+    }}
 }
 
 int main(int argc, char **argv)

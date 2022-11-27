@@ -434,7 +434,7 @@ void PickPlace::define_cartesian_pose(gpd_ros::GraspConfig pose0) {
   start_pose_.pose.orientation.z = q.z();
   start_pose_.pose.orientation.w = q.w();
   // define grasp pose
-  grasp_pose_.header.frame_id = "grasp";
+  grasp_pose_.header.frame_id = "root";
   grasp_pose_.header.stamp = ros::Time::now();
   grasp_pose_.pose.position = pose0.position;
   q = rot_to_Quaternion(pose0.approach, pose0.binormal, pose0.axis);

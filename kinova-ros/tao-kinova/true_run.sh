@@ -20,4 +20,6 @@ sleep 1s
 gnome-terminal -t "cloud" -x bash -c "rosrun gpd_ros global_point ;exec bash;"
 # gnome-terminal -t "goal" -x bash -c "rostopic echo /detect_grasps/goal_pose;exec bash;"
 sleep 1s
-# gnome-terminal -t "gpd" -x bash -c "roslaunch gpd_ros ur5.launch ;exec bash;"
+gnome-terminal -t "gpd" -x bash -c "rosrun gpd_ros launch_gpd.py;exec bash;"
+# gnome-terminal -t "gpd" -x bash -c "roslaunch gpd_ros ur5.launch;exec bash;"
+

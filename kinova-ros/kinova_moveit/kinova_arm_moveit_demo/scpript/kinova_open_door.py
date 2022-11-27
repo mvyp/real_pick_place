@@ -46,7 +46,8 @@ from tf.transformations import quaternion_from_euler
 # move_group_python_interface_tutorial was used as reference
 DL = 0.6
 RPY = 0.35
-RPX = 0.15
+RPX = 0.17
+# 0.15
 
 
 class MoveRobot():
@@ -79,7 +80,10 @@ class MoveRobot():
             '/j2s7s300_driver/pose_action/tool_pose',
             kinova_msgs.msg.ArmPoseAction)
         self.client.wait_for_server()
-
+        self.fin_client = actionlib.SimpleActionClient(
+            '/j2s7s300_driver/fingers_action/finger_positions',
+            kinova_msgs.msg.SetFingersPositionAction)
+        self.fin_client.wait_for_server()
         rospy.set_param(
             '/move_group/trajectory_execution/allowed_start_tolerance', 0.3)
 
@@ -100,9 +104,32 @@ class MoveRobot():
         self.rate = rospy.Rate(10)
 
         self.move_group.allow_replanning(1)
-        self.add_object()
-        self.main()
+        rospy.Subscriber('Command', String, self.callback)
+        self.pub = rospy.Publisher('open_door/message', String, queue_size=1)
         rospy.spin()
+
+    def callback(self, data):
+        if data.data == "Open_door":
+            self.main()
+        if data.data == "Front":
+            pass
+        if data.data == "Home":
+            self.homeRobot()
+        self.pub.publish("finish")
+
+    def gripper_client(self, finger_positions):
+        """Send a gripper goal to the action server."""
+        goal = kinova_msgs.msg.SetFingersPositionGoal()
+        goal.fingers.finger1 = float(finger_positions[0])
+        goal.fingers.finger2 = float(finger_positions[1])
+        goal.fingers.finger3 = float(finger_positions[2])
+        self.fin_client.send_goal(goal)
+        if self.fin_client.wait_for_result(rospy.Duration(50.0)):
+            return self.fin_client.get_result()
+        else:
+            self.fin_client.cancel_all_goals()
+            rospy.logwarn('        the gripper action timed-out')
+            return None
 
     def cartesian_pose_client(self, position, orientation, my_frame_id):
         """Send a cartesian goal to the action server."""
@@ -121,7 +148,7 @@ class MoveRobot():
 
         self.client.send_goal(goal)
 
-        if self.client.wait_for_result(rospy.Duration(15.0)):
+        if self.client.wait_for_result(rospy.Duration(150.0)):
             return self.client.get_result()
         else:
             self.client.cancel_all_goals()
@@ -136,6 +163,12 @@ class MoveRobot():
         except rospy.ServiceException as e:
             print("Service call failed: {}".format(e))
             home()
+
+    def clear_all_object(self):
+        self.scene.remove_world_object('table')
+        self.scene.remove_world_object('door')
+        self.scene.remove_world_object('handle')
+        self.scene.remove_world_object('wall')
 
     def add_object(self):
         self.scene.remove_world_object('table')
@@ -265,9 +298,9 @@ class MoveRobot():
 
         self.move_gripper.go(wait=True)
         """self.move_gripper.execute(self.plan_gripper, wait=True)"""
-        self.move_gripper.stop()
+        # self.move_gripper.stop()
         self.move_gripper.clear_pose_targets()
-        rospy.sleep(2)
+        rospy.sleep(1)
 
     def go_to_finger_joint_state(self, joint_values):
         try:
@@ -301,7 +334,7 @@ class MoveRobot():
             return False
 
     def main(self):
-
+        self.add_object()
         # Set up path here
 
         # Pick planner
@@ -329,14 +362,15 @@ class MoveRobot():
 
         ############# Going to finger link position ###################
         rospy.loginfo('Going to finger link position')
-        self.go_to_finger_state("Close")
+        # self.go_to_finger_state("Close")
+        result = self.gripper_client([0,6800,6800])
         ############# Press down the handle ###################
 
         rospy.loginfo('Press down the handle')
 
         cpose = self.move_group.get_current_pose().pose
-        for i in range(0, 4):
-            cpose.position.z -=  i * 0.01
+        for i in range(0, 2):
+            cpose.position.z -= i * 0.01
             self.cartesian_pose_client(
                 [cpose.position.x, cpose.position.y, cpose.position.z], [
                     cpose.orientation.x, cpose.orientation.y,
@@ -352,7 +386,7 @@ class MoveRobot():
         t = 0
 
         # First plan
-        for i in range(0, 10):  # In current scene max value of theta is 46
+        for i in range(0, 10):
             t = t + 2
             thetas.append((t / 180.0) * np.pi)
 
@@ -405,12 +439,20 @@ class MoveRobot():
 
         self.go_to_finger_state('Open')
 
+        # position = [
+        #     0.8694887757301331, -0.12675708532333374, 0.5372458100318909
+        # ]
+        # quaternion = [-0.028, 0.724, 0.120, 0.678]
         position = [
-            0.8694887757301331, -0.12675708532333374, 0.5372458100318909
+            0.7479259967803955, -0.18420211970806122, 0.697601854801178
         ]
-        quaternion = [-0.028, 0.724, 0.120, 0.678]
+        quaternion = [
+            -0.028312042355537415, 0.7222089767456055, -0.002740800380706787,
+            0.6910898685455322
+        ]
         rospy.loginfo("PUSH!")
         self.cartesian_pose_client(position, quaternion, 'j2s7s300_link_base')
+        rospy.sleep(1)
 
         # self.move_group.set_goal_position_tolerance(0.30)
         # self.move_group.set_goal_orientation_tolerance(0.3)
@@ -480,6 +522,7 @@ class MoveRobot():
         self.move_group.go(wait=True)
 
         # self.homeRobot()
+        self.clear_all_object()
 
 
 if __name__ == '__main__':

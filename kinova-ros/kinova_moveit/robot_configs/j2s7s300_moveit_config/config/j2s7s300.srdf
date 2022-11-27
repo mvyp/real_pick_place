@@ -42,13 +42,13 @@
         <joint name="j2s7s300_joint_7" value="4.88" />
     </group_state>
     <group_state name="Wait" group="arm">
-        <joint name="j2s7s300_joint_1" value="3.70" />
-        <joint name="j2s7s300_joint_2" value="2.74" />
-        <joint name="j2s7s300_joint_3" value="1.10" />
+        <joint name="j2s7s300_joint_1" value="3.01" />
+        <joint name="j2s7s300_joint_2" value="2.87" />
+        <joint name="j2s7s300_joint_3" value="1.71" />
         <joint name="j2s7s300_joint_4" value="0.59" />
-        <joint name="j2s7s300_joint_5" value="4.83" />
-        <joint name="j2s7s300_joint_6" value="4.59" />
-        <joint name="j2s7s300_joint_7" value="5.01" />
+        <joint name="j2s7s300_joint_5" value="2.89" />
+        <joint name="j2s7s300_joint_6" value="2.56" />
+        <joint name="j2s7s300_joint_7" value="8.01" />
     </group_state>
     <group_state name="Open" group="gripper">
         <joint name="j2s7s300_joint_finger_1" value="0.2" />

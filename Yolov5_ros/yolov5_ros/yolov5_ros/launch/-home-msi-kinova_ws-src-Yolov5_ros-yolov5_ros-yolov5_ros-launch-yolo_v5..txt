@@ -1,0 +1,1 @@
+/home/msi/kinova_ws/src/Yolov5_ros/yolov5_ros/yolov5_ros/launch/yolo_v5.launch

@@ -11,6 +11,13 @@
 #include <geometry_msgs/TransformStamped.h>
 #include "std_msgs/String.h"
 
+#include <kinova_msgs/ArmPoseActionGoal.h> 
+
+#include <actionlib/client/simple_action_client.h>
+#include <kinova_msgs/ArmPoseAction.h>
+#include <kinova_msgs/HomeArm.h>
+#include <kinova_msgs/ArmJointAnglesAction.h>
+
 #include <actionlib/client/simple_action_client.h>
 #include <kinova_msgs/SetFingersPositionAction.h>
 
@@ -60,8 +67,13 @@ namespace kinova
         tf::TransformListener listener;
         tf::StampedTransform st;
         void get_position(const std_msgs::String &);
-        void goto_approximate_loc(tf::Vector3);
+        void goto_approximate_loc(const tf::Vector3 &,bool);
         void clear_target();
+        actionlib::SimpleActionClient <kinova_msgs::ArmPoseAction> *client_; 
+        bool cartesian_pose_client(const geometry_msgs::PoseStamped &);
+        void open(const std_msgs::String &);
+
+
     private:
         ros::NodeHandle nh_;
 
@@ -85,11 +97,16 @@ namespace kinova
         ros::Publisher pub_co_;
         ros::Publisher pub_aco_;
         ros::Publisher pub_planning_scene_diff_;
+        ros::Publisher pub_message_;
+        
         ros::Subscriber sub_pose_;
         ros::Subscriber sub_joint_;
         ros::Subscriber sub_position_;
         ros::Subscriber sub_approximate_;
         ros::Subscriber sub_grasps_;
+        ros::Subscriber sub_open_;
+        ros::Subscriber sub_table_;
+
 
         //
         std::vector<std::string> joint_names_;
@@ -135,7 +152,9 @@ namespace kinova
         void clear_obstacle();
         void clear_workscene();
         void add_attached_obstacle();
-        void add_target();
+        void add_table(const std_msgs::Float32 &);
+        void clear_table();
+        void add_target(const double &, const double &, const double &);
 
         void define_joint_values();
         // void define_cartesian_pose();

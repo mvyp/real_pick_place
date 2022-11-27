@@ -6,12 +6,9 @@ def talker():
     rospy.init_node('my_talker')
     pub = rospy.Publisher('/pick_place/target', String, queue_size=1)
 
-    rate = rospy.Rate(10) # 10hz
-    while not rospy.is_shutdown():
+    rospy.sleep(1)
 
-        pub.publish("bottle")
-        #print("aa")
-        rate.sleep()
+    pub.publish("bottle")
  
 if __name__ == '__main__':
     try:

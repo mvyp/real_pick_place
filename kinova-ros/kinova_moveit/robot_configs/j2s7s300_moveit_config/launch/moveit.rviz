@@ -10,7 +10,7 @@ Panels:
         - /MarkerArray1
         - /RobotModel1
       Splitter Ratio: 0.7425600290298462
-    Tree Height: 645
+    Tree Height: 311
   - Class: rviz/Help
     Name: Help
   - Class: rviz/Views
@@ -333,17 +333,33 @@ Visualization Manager:
       Frames:
         All Enabled: false
         base_link:
+          Value: false
+        bottle:
           Value: true
+        camera_aligned_depth_to_color_frame:
+          Value: false
         camera_base:
-          Value: true
+          Value: false
         camera_body:
-          Value: true
+          Value: false
+        camera_color_frame:
+          Value: false
         camera_color_optical_frame:
+          Value: false
+        camera_depth_frame:
+          Value: false
+        camera_depth_optical_frame:
+          Value: false
+        camera_link:
           Value: false
         camera_visor:
           Value: true
+        depth_camera_link:
+          Value: false
+        imu_link:
+          Value: false
         j2s7s300_end_effector:
-          Value: true
+          Value: false
         j2s7s300_link_1:
           Value: false
         j2s7s300_link_2:
@@ -359,7 +375,7 @@ Visualization Manager:
         j2s7s300_link_7:
           Value: false
         j2s7s300_link_base:
-          Value: false
+          Value: true
         j2s7s300_link_finger_1:
           Value: false
         j2s7s300_link_finger_2:
@@ -373,23 +389,29 @@ Visualization Manager:
         j2s7s300_link_finger_tip_3:
           Value: false
         kinect_base_link:
-          Value: true
+          Value: false
+        laser:
+          Value: false
         pan_tilt_base_link:
-          Value: true
+          Value: false
         pan_tilt_pitch_link:
-          Value: true
+          Value: false
         pan_tilt_surface:
-          Value: true
+          Value: false
         pan_tilt_yaw_link:
-          Value: true
+          Value: false
         realsense_coupling_link:
           Value: false
-        root:
+        rgb_camera_link:
           Value: false
+        root:
+          Value: true
         seeker_base_link:
+          Value: false
+        suitcase:
           Value: true
         world:
-          Value: true
+          Value: false
       Marker Alpha: 1
       Marker Scale: 1
       Name: TF
@@ -398,6 +420,8 @@ Visualization Manager:
       Show Names: true
       Tree:
         base_link:
+          laser:
+            {}
           seeker_base_link:
             kinect_base_link:
               pan_tilt_base_link:
@@ -405,9 +429,18 @@ Visualization Manager:
                   pan_tilt_pitch_link:
                     pan_tilt_surface:
                       camera_base:
+                        bottle:
+                          {}
                         camera_body:
                           {}
                         camera_visor:
+                          {}
+                        depth_camera_link:
+                          imu_link:
+                            {}
+                          rgb_camera_link:
+                            {}
+                        suitcase:
                           {}
           world:
             root:
@@ -536,7 +569,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 3.1800897121429443
+      Distance: 4.87647819519043
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -552,14 +585,14 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.33979669213294983
+      Pitch: 0.20979659259319305
       Target Frame: root
-      Yaw: 4.251764297485352
+      Yaw: 4.746760368347168
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 2032
+  Height: 1366
   Help:
     collapsed: false
   Hide Left Dock: false
@@ -568,9 +601,9 @@ Window Geometry:
     collapsed: false
   MotionPlanning - Trajectory Slider:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000003f000000754fc0200000007fb000000100044006900730070006c006100790073010000006e000002f30000018200fffffffb0000000800480065006c00700000000342000000bb000000d400fffffffb0000000a0056006900650077007300000003b0000000b00000013200fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000002600000026fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000036d00000455000002b800ffffff00000a740000075400000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000003a3000004bafc0200000007fb000000100044006900730070006c006100790073010000006e000001a50000018200fffffffb0000000800480065006c00700000000342000000bb000000d400fffffffb0000000a0056006900650077007300000003b0000000b00000013200fffffffb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000374000001890000000000000000fb00000044004d006f00740069006f006e0050006c0061006e006e0069006e00670020002d0020005400720061006a006500630074006f0072007900200053006c00690064006500720000000000ffffffff0000002600000026fb0000001c004d006f00740069006f006e0050006c0061006e006e0069006e0067010000021f00000309000002b800ffffff00000651000004ba00000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 3696
-  X: 144
-  Y: 54
+  Width: 2560
+  X: 3840
+  Y: 0
